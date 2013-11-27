@@ -351,6 +351,7 @@ namespace Fanex.Security.SpamFilter.Entity
         /// <summary>
         /// Get current blocker object from repository.
         /// </summary>
+        /// <returns>Return current blocker.</returns>
         public IRequestBlocker GetBlocker()
         {
             var blocker = this.Repository.Get(this.BlockerKey, this.Blocker.GetType());
