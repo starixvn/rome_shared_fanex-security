@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/tr/xhtml1/DTD/xhtml1-transitional.dtd">
+<<<<<<< HEAD:Fanex.Security.Captcha/Areas/SpamFilter/Views/Captcha/PageAccess/GoogleCaptcha.cshtml
+
+@using Fanex.Security.Captcha.Configurations
+@using Resources
+=======
+@using Fanex.Security.Captcha.App_GlobalResources.Security
+@using Fanex.Security.Captcha.Configurations
+>>>>>>> c183c23757cced875c0edfc8a0a93ee9cefabe2f:Fanex.Security.Captcha/Areas/SpamFilter/Views/Captcha/PageAccess/GoogleCaptcha.cshtml
+
+@{
+    ViewBag.Title = "Recaptcha";
+    //Layout = "../../Shared/_Layout.cshtml";
+    
+}
+<link href="@Url.Content("~/Areas/SpamFilter/Views/Styles/Captcha/PageAccess/Index.css")"
+        rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+    var RecaptchaOptions = {
+        theme: 'custom',
+        custom_theme_widget: 'recaptcha_widget'
+    };
+</script>
+<div id="captchaWrapper">
+<div id="popup">
+    <div class="ptitle">
+        <div class="atticon">
+        </div>
+        @Security.securitycheck
+    </div>
+    <div class="pcon">
+        <p>
+            @Security.securitytitlenotification
+        </p>
+        <div id="message-box" style="display: none">
+            <span class="message-error">@Security.securityerrorcaptcha </span>
+        </div>
+        <div id="recaptcha_widget">
+            <table style="border-collapse: collapse" border="1px" class="recaptchatable recaptcha_theme_white"
+                   id="recaptcha_table">
+                <tbody>
+                    <tr>
+                        <td class="recaptcha_r1_c1" colspan="6">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="recaptcha_r2_c1">
+                        </td>
+                        <td class="recaptcha_image_cell" colspan="4">
+                            <div id="recaptcha_image">
+                            </div>
+                        </td>
+                        <td class="recaptcha_r2_c2">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="recaptcha_r3_c1" rowspan="6">
+                        </td>
+                        <td class="recaptcha_r3_c2" colspan="4">
+                        </td>
+                        <td class="recaptcha_r3_c3" rowspan="6">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="49" class="recaptcha_r4_c1" rowspan="3">
+                            <span class="recaptcha_response_field_label">@Security.typethe2words</span>
+                            <input type="text" id="recaptcha_response_field" 
+                                   name="recaptcha_response_field" />
+                        </td>
+                        <td class="recaptcha_r4_c2" rowspan="4">
+                        </td>
+                        <td>
+                            <a id="recaptcha_reload_btn" title="Get a new challenge" href="javascript:Recaptcha.reload()">
+                                <img width="25" height="17" id="recaptcha_reload" src="http://www.google.com/recaptcha/api/img/white/refresh.gif"
+                                     alt="Get a new challenge"></a> <a class="recaptcha_only_if_image" id="recaptcha_switch_audio_btn"
+                                                                       title="Get an audio challenge">
+                                                                        <img width="25" height="16" alt="Get an audio challenge" id="recaptcha_switch_audio"
+                                                                             src="@Url.Content("~/Areas/SpamFilter/Views/Styles/Captcha/PageAccess/Images/audio.gif")"></a><a
+                                                                                                                                                                               class="recaptcha_only_if_audio" id="recaptcha_switch_img_btn" title="Get a visual challenge"><img
+                                                                                                                                                                                                                                                                                width="25" height="16" alt="Get a visual challenge" id="recaptcha_switch_img"
+                                                                                                                                                                                                                                                                                src="http://www.google.com/recaptcha/api/img/white/text.gif"></a>
+                        </td>
+                        <td class="recaptcha_r4_c4" rowspan="4">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="recaptcha_r7_c1">
+                        </td>
+                        <td class="recaptcha_r8_c1">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <button id="SubmitCaptcha" class="pbutton" type="button">
+                @Resources.Lang.submit</button>
+        </div>
+    </div>
+    <script type="text/javascript" src="http://www.google.com/recaptcha/api/challenge?k=@AppSettings.RecaptchaPublicKey">
+    </script>
+    <noscript>
+        <iframe src="http://www.google.com/recaptcha/api/noscript?k=@AppSettings.RecaptchaPublicKey" height="300" width="500"
+                frameborder="0"></iframe>
+        <br>
+        <textarea name="recaptcha_challenge_field" rows="3" cols="40">
+   </textarea>
+        <input type="hidden" name="recaptcha_response_field" value="manual_challenge">
+    </noscript>
+</div>
+
+
+<div id='overlay' style='background-color: grey; width: 100%; height: 100%; position: fixed; left: 0; top: 0; filter: alpha(opacity = 50); zoom: 1 ; opacity: 0.5; z-index:1000;'></div>
+
+
+</div>
+<script src="@Url.Content("~/Areas/SpamFilter/Views/Scripts/jQuery/jquery-1.8.2.min.js")"
+    type="text/javascript"></script>
+<script src="@Url.Content("~/Areas/SpamFilter/Views/Scripts/Captcha/PageAccess/GoogleCaptcha.js?v=2")"
+    type="text/javascript"></script>

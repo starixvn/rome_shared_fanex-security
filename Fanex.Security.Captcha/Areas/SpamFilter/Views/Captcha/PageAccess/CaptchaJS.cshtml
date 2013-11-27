@@ -1,0 +1,19 @@
+﻿@model Fanex.Security.Captcha.ViewModels.PageInfo
+
+
+var Captcha = {
+    PageName: '@Model.PageName',
+    RootURL: location.protocol + '//' + location.host + '@Url.Content("~/")'
+};
+
+
+var strIframe = "<iframe src='" + Captcha.RootURL + "SpamFilter/Captcha/PageAccessCaptcha?rule=" + Captcha.PageName + "' frameborder='0' width='100%' height='100%' scrolling='no' id='frCaptcha' name='frCaptcha' style='position:fixed; left:0; top: 0; '></iframe>";
+var captchaHTML = "";
+var eleError = document.createElement('div');
+eleError.innerHTML = '"' + strIframe + "'";
+
+document.body.onload = function() {
+    document.body.appendChild(eleError);
+};
+
+

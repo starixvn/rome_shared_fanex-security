@@ -1,0 +1,60 @@
+﻿body
+{
+    padding: 0px;
+    margin: 0px;
+}
+
+#popup {
+    background: url("Images/pbg.jpg") repeat-x scroll 0 0 transparent;
+    border: 1px solid #FFFFFF;
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: 2px 2px 5px rgba(50, 50, 50, 0.3);
+    height: 200px;
+    width: 435px;
+    position: fixed;
+    z-index: 1001;
+    margin-top: 20%;
+    margin-left: 30%;
+}
+.ptitle {
+    background: url("Images/ptitlebg.jpg") repeat-x scroll 0 0 transparent;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    color: #FFFFFF;
+    font-family: Verdana,Geneva,sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    height: 22px;
+    line-height: 14px;
+    padding-left: 10px;
+    padding-top: 5px;
+    text-indent: 5px;
+    width: 425px;
+}
+.atticon {
+    background: url("Images/atticon.png") no-repeat scroll 0 0 transparent;
+    float: left;
+    height: 16px;
+    width: 16px;
+}
+.pcon {
+    background: url("Images/stop.png") no-repeat scroll left center transparent;
+    font-family: Verdana,Geneva,sans-serif;
+    font-size: 11px;
+    line-height: 16px;
+    margin-left: 30px;
+    padding: 25px 30px 30px 80px;
+}
+
+.message-error
+{
+    color: Red;
+}
+
+#countdown
+{
+    height: 45px;
+    width: 240px;
+    padding-top: 10px;
+    font-size: 100%;
+}

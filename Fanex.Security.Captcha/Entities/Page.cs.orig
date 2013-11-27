@@ -1,0 +1,216 @@
+﻿using System;
+using System.Collections.Generic;
+using Fanex.Security.Configurations;
+
+namespace Fanex.Security.Entities
+{
+    [Serializable]
+    public class Page
+    {
+        public enum Status
+        {
+<<<<<<< HEAD
+            Opening,Closing,RequirePasspost
+=======
+            Opening,
+            Closing,
+            RequirePasspost
+>>>>>>> 053d61133fc19b17def38921ee64bf00b137d337
+        }
+        private bool _closed;
+
+<<<<<<< HEAD
+        public Page(string pageName)
+        {
+            PageName = pageName;
+        }
+=======
+>>>>>>> 053d61133fc19b17def38921ee64bf00b137d337
+        public int LimitedHit { get; set; }
+        public int LimitedDuration { get; set; }
+        public int CurrentHit { get; private set; }
+        public int ClosedDuration { get; set; }
+        public int BlockedHit { get; set; }
+        public int TotalHit { get; set; }
+        public DateTime FirstHitTime { get; set; }
+        public DateTime LastClosed { get; set; }
+        public string PassportNumber { get; set; }
+        public string PageName { get; set; }
+<<<<<<< HEAD
+        public DateTime CheckTime { get; set; }
+        public List<HitRecord> HitRecords { get; set; }
+=======
+
+        public DateTime CheckTime { get; set; }
+
+        public List<HitRecord> HitRecords { get; set; }
+
+        public Page(string pageName)
+        {
+            PageName = pageName;
+        }
+
+>>>>>>> 053d61133fc19b17def38921ee64bf00b137d337
+        public Status PageStatus { get; set; }
+
+        public void IncreaseHit()
+        {
+            CheckTime = DateTime.Now;
+            if (Closing()) return;
+            CurrentHit += 1;
+            TotalHit += 1;
+            UpdateHit();
+        }
+
+        public void ResetHit(PageRoleElement pageRoleElement)
+        {
+            LimitedHit = pageRoleElement.LimitedHit;
+            LimitedDuration = pageRoleElement.LimitedDuration;
+            BlockedHit = pageRoleElement.BlockedHit;
+            ClosedDuration = pageRoleElement.ClosedDuration;
+            CheckTime = DateTime.Now;
+            if (Closing()) return;
+            UpdateHitRecords();
+<<<<<<< HEAD
+=======
+
+>>>>>>> 053d61133fc19b17def38921ee64bf00b137d337
+        }
+
+        public bool UpdatePassport(string passPortNumber)
+        {
+            if (string.IsNullOrEmpty(passPortNumber)) return false;
+            if (Closing()) return false;
+            PassportNumber = passPortNumber;
+            ResetLimitedHit();
+            return true;
+        }
+
+        private void UpdateHit()
+        {
+            if (!OverLimitedDuration())
+            {
+                UpdateHitRecords();
+                return;
+            }
+            HitRecords = HitRecords ?? new List<HitRecord>();
+<<<<<<< HEAD
+            HitRecords.Add(new HitRecord {Hit = CurrentHit, RecordTime = CheckTime});
+=======
+
+            HitRecords.Add(new HitRecord {Hit = CurrentHit, RecordTime = CheckTime});
+
+>>>>>>> 053d61133fc19b17def38921ee64bf00b137d337
+            if (!OverLimitedHit()) return;
+            PassportNumber = string.Empty;
+            PageStatus = Status.RequirePasspost;
+        }
+
+        private bool Closing()
+        {
+            if (_closed && CheckTime.AddMinutes(-ClosedDuration) <= LastClosed)
+            {
+                PageStatus = Status.Closing;
+                return true;
+            }
+            if (OverLimitedDuration() && OverBlockHit())
+            {
+                _closed = true;
+                LastClosed = (LastClosed < FirstHitTime) ? CheckTime : LastClosed;
+                PageStatus = Status.Closing;
+                return true;
+            }
+            _closed = false;
+            return false;
+        }
+
+        private void UpdateHitRecords()
+        {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 053d61133fc19b17def38921ee64bf00b137d337
+            if (null == HitRecords)
+            {
+                FirstHitTime = CheckTime;
+                ResetBlockedHit();
+                return;
+            }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 053d61133fc19b17def38921ee64bf00b137d337
+            FirstHitTime = CheckTime.AddMinutes(-LimitedDuration);
+            var hitResults = HitRecords.FindAll(
+                hitRecord => hitRecord.RecordTime > FirstHitTime
+                );
+            var hitHistoryTotal = hitResults.Count;
+
+            if (0 == hitHistoryTotal)
+            {
+                ResetBlockedHit();
+                return;
+            }
+
+            HitRecords = new List<HitRecord>();
+            for (var i = 0; i < hitHistoryTotal; i++)
+            {
+                HitRecords.Add(new HitRecord
+                    {
+                        Hit = i + 1,
+                        RecordTime = hitResults[i].RecordTime
+                    });
+            }
+            FirstHitTime = HitRecords[0].RecordTime;
+        }
+
+        private void ResetLimitedHit()
+        {
+            CurrentHit = 1;
+            PageStatus = Status.Opening;
+        }
+
+        private void ResetBlockedHit()
+        {
+            ResetLimitedHit();
+            FirstHitTime = CheckTime;
+            HitRecords = new List<HitRecord>
+                {
+                    new HitRecord
+                        {
+                            Hit = CurrentHit,
+                            RecordTime = FirstHitTime
+                        }
+                };
+            TotalHit = 1;
+        }
+
+        private bool OverLimitedHit()
+        {
+            return CurrentHit > LimitedHit;
+        }
+
+        private bool OverLimitedDuration()
+        {
+            return CheckTime.AddMinutes(-LimitedDuration) < FirstHitTime;
+        }
+
+        private bool OverBlockHit()
+        {
+            return TotalHit > BlockedHit;
+        }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 053d61133fc19b17def38921ee64bf00b137d337
+    }
+
+    [Serializable]
+    public class HitRecord
+    {
+        public int Hit { get; set; }
+
+        public DateTime RecordTime { get; set; }
+    }
+
+}

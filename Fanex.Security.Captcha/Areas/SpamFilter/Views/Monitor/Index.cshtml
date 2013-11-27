@@ -1,0 +1,47 @@
+﻿@using Couchbase;
+@model IEnumerable<IViewRow>
+@{
+    ViewBag.Title = "Index";
+}
+<style type="text/css">
+table
+{
+    border-collapse: collapse;
+    width: 900px;
+}
+
+table td, table th
+{
+    border: 1px solid black;
+    padding : 5px;
+}
+</style>
+<h2>
+    Index</h2>
+<table>
+    <thead>
+        <tr>
+            <th>
+                Doc ID
+            </th>
+            <th>
+                Value
+            </th>
+        </tr>
+    </thead>
+    @if (Model.Any())
+    {
+        foreach (var item in Model)
+        {
+
+        <tr>
+            <td>
+                @item.ItemId
+            </td>
+            <td>
+                @Convert.ToString(item.GetItem())
+            </td>
+        </tr>
+        }
+    }
+</table>

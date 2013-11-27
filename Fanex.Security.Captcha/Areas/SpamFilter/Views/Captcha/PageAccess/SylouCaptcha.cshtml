@@ -1,0 +1,21 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/tr/xhtml1/DTD/xhtml1-transitional.dtd">
+@using CaptchaMvc.HtmlHelpers;
+@model CaptchaMvc.Models.DefaultBuildInfoModel
+@{
+    ViewBag.Title = "Recaptcha";
+    //Layout = "../../Shared/_Layout.cshtml";
+    
+}
+<link href="@Url.Content("~/Areas/SpamFilter/Views/Styles/Captcha/PageAccess/Index.css")"
+        rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/Areas/SpamFilter/Views/Scripts/jQuery/jquery-1.8.2.min.js?v=2")"
+    type="text/javascript"></script>
+<script src="@Url.Content("~/Areas/SpamFilter/Views/Scripts/Captcha/PageAccess/SylouCaptcha.js?v=6")"
+    type="text/javascript"></script>
+@using (Html.BeginForm("CheckCaptcha", "Captcha", FormMethod.Post, new { @id = "CaptchaMVCForm" }))
+{
+    <input id="ValidateSuccess" type="hidden" value="@ViewBag.Success.ToString()" />
+    <input id="rule" name="rule" type="hidden" value="@ViewBag.Rule" />
+    @Html.Captcha(5, "~/Areas/SpamFilter/Views/Captcha/PageAccess/SylouCaptchaPartialView.cshtml", ViewData)
+}

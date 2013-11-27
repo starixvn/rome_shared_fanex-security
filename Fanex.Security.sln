@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Dependencies", "_Dependencies", "{CDFF214E-0D67-429E-999C-7C56D74DAFAF}"
+	ProjectSection(SolutionItems) = preProject
+		_Dependencies\Enyim.Caching.dll = _Dependencies\Enyim.Caching.dll
+		_Dependencies\Enyim.Caching.Log4NetAdapter.dll = _Dependencies\Enyim.Caching.Log4NetAdapter.dll
+		_Dependencies\Enyim.Caching.NLogAdapter.dll = _Dependencies\Enyim.Caching.NLogAdapter.dll
+		_Dependencies\Fanex.Common.dll = _Dependencies\Fanex.Common.dll
+		_Dependencies\Fanex.Logging.dll = _Dependencies\Fanex.Logging.dll
+		fanex-security-spamfilter\Fanex.Security.SpamFilter\bin\Release\Fanex.Security.SpamFilter.dll = fanex-security-spamfilter\Fanex.Security.SpamFilter\bin\Release\Fanex.Security.SpamFilter.dll
+		_Dependencies\log4net.dll = _Dependencies\log4net.dll
+		_Dependencies\Newtonsoft.Json.dll = _Dependencies\Newtonsoft.Json.dll
+		_Dependencies\NLog.dll = _Dependencies\NLog.dll
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.Security.Captcha", "Fanex.Security.Captcha\Fanex.Security.Captcha.csproj", "{D017BB4A-5926-4AD9-8133-C0AEEAA42647}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D017BB4A-5926-4AD9-8133-C0AEEAA42647}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D017BB4A-5926-4AD9-8133-C0AEEAA42647}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D017BB4A-5926-4AD9-8133-C0AEEAA42647}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D017BB4A-5926-4AD9-8133-C0AEEAA42647}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
