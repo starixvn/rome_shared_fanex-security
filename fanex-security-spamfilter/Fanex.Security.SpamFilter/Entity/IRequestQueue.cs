@@ -126,11 +126,5 @@ namespace Fanex.Security.SpamFilter.Entity
         /// </summary>
         /// <returns>Return an item.</returns>
         T Peek();
-
-        /// <summary>
-        /// Set remote blocker.
-        /// </summary>
-        /// <param name="blocker">Blocker object need to be set.</param>
-        void SetBlocker(IRequestBlocker blocker);
     }
 }

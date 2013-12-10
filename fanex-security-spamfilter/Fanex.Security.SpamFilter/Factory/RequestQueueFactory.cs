@@ -93,15 +93,8 @@ namespace Fanex.Security.SpamFilter.Factory
                 {
                     if (!cache.ContainsKey(sample.Key))
                     {
-                        var queue = new RequestQueue(rule.FullName, repository);
-
-                        queue.Interval = TimeSpan.FromMinutes(rule.Minutes);
-                        queue.Threshold = rule.Threshold;
-                        queue.Key = sample.Key;
-
                         IRequestBlocker blocker = RequestBlockerFactory.Create(rule);
-
-                        queue.SetBlocker(blocker);
+                        var queue = new RequestQueue(rule.FullName, sample.Key, rule, blocker, repository);
 
                         // Avoid memory overflow, we need to guarantee that there is a limit number of queues
                         // Monitor max item and remove expired one

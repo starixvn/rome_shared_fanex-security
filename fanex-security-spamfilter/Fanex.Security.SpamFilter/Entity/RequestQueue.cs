@@ -35,11 +35,19 @@ namespace Fanex.Security.SpamFilter.Entity
         /// Initializes a new instance of the <see cref="RequestQueue"/> class.
         /// </summary>
         /// <param name="name">Queue name.</param>
+        /// <param name="key">Queue item key.</param>
+        /// <param name="rule">Rule element.</param>
+        /// <param name="blocker">Blocker object.</param>
         /// <param name="repository">Repository object.</param>
-        internal RequestQueue(string name, IPersistentRepository repository)
+        internal RequestQueue(string name, string key, RuleElement rule, IRequestBlocker blocker, IPersistentRepository repository)
         {
             this.Queue = new Queue();
             this.Name = name;
+
+            this.Interval = TimeSpan.FromMinutes(rule.Minutes);
+            this.Threshold = rule.Threshold;
+            this.Key = key;
+
             this.Repository = repository;
             this.ThresholdOverflow = false;
             this.Repository.OnPreDispose += new EventHandler(this.Repository_OnPreDispose);
@@ -49,6 +57,14 @@ namespace Fanex.Security.SpamFilter.Entity
             {
                 this.NewToken();
             }
+
+            this.Blocker = blocker;
+
+            // Init remote blocker
+            this.SetBlocker();
+
+            // Init remote count
+            this.Repository.Increment(this.Key, 0);
         }
 
         /// <summary>
@@ -377,12 +393,6 @@ namespace Fanex.Security.SpamFilter.Entity
             // This operation doesn't change queue content so no need to update to remote repository
             var item = (this.Count == 0) ? null : this.Queue.Peek() as IRequest;
             return item;
-        }
-
-        public void SetBlocker(IRequestBlocker blocker)
-        {
-            this.Blocker = blocker;
-            this.SetBlocker();
         }
 
         /// <summary>
