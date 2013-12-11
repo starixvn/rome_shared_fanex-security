@@ -252,9 +252,12 @@ namespace Fanex.Security.SpamFilter.Repository
     {
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            DateTime result = DateTime.UtcNow;
-
-            DateTime.TryParse(reader.Value.ToString(), out result);
+            DateTime result = DateTime.MinValue.ToUniversalTime();
+            bool success = DateTime.TryParse(reader.Value.ToString(), out result);
+            if (!success)
+            {
+                result = DateTime.MinValue.ToUniversalTime();
+            }
 
             return result;
         }

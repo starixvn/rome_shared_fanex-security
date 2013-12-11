@@ -482,7 +482,7 @@ namespace Fanex.Security.SpamFilter.Entity
         private void Unblock()
         {
             this.Blocker.Blocked = false;
-            this.Blocker.BlockedTime = DateTime.MinValue;
+            this.Blocker.BlockedTime = DateTime.MinValue.ToUniversalTime();
         }
     }
 }

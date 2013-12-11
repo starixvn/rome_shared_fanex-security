@@ -21,7 +21,7 @@ namespace Fanex.Security.SpamFilter.Factory
         public static IRequestBlocker Create(RuleElement rule)
         {
             RequestBlocker blocker = new RequestBlocker();
-            blocker.BlockedTime = DateTime.MinValue;
+            blocker.BlockedTime = DateTime.MinValue.ToUniversalTime();
             blocker.Duration = TimeSpan.FromMinutes(rule.BlockDuration);
             blocker.Name = rule.Name;
             blocker.Threshold = rule.Threshold;
