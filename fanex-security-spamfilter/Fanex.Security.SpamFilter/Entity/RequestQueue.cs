@@ -370,10 +370,18 @@ namespace Fanex.Security.SpamFilter.Entity
         /// <returns>Return current blocker.</returns>
         public IRequestBlocker GetBlocker()
         {
-            var blocker = this.Repository.Get(this.BlockerKey, this.Blocker.GetType());
-            if (blocker != null)
+            try
             {
-                this.Blocker = (IRequestBlocker)blocker;
+                var blocker = this.Repository.Get(this.BlockerKey, this.Blocker.GetType());
+                if (blocker != null)
+                {
+                    this.Blocker = (IRequestBlocker)blocker;
+                }
+            }
+            catch
+            {
+                // Blocker is wrong, try to reset it
+                this.SetBlocker();
             }
 
             return this.Blocker;

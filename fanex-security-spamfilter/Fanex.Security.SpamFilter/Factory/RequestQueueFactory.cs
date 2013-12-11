@@ -54,7 +54,13 @@ namespace Fanex.Security.SpamFilter.Factory
                                     {
                                         if (item != null && item.Count > 0)
                                         {
-                                            item.Synchronize();
+                                            // Try to refresh queue by checking its blocked status
+                                            var blocked = item.Blocked;
+                                            if (blocked)
+                                            {
+                                                // Try to synchronize again
+                                                item.Synchronize();
+                                            }
                                         }
                                     }
                                 }
