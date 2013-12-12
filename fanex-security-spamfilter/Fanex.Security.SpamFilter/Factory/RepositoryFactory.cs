@@ -37,6 +37,7 @@ namespace Fanex.Security.SpamFilter.Factory
     /// </summary>
     internal static class RepositoryFactory
     {
+        private const string HostConnected = " - connected";
         private static IDictionary<RepositoryType, IPersistentRepository> cache = new Dictionary<RepositoryType, IPersistentRepository>();
         private static object locker = new object();
 
@@ -69,7 +70,7 @@ namespace Fanex.Security.SpamFilter.Factory
 
                             try
                             {
-                                couchbase.Set(Dns.GetHostName(), true);
+                                couchbase.Set(Dns.GetHostName() + HostConnected, true);
                                 couchbase.Initialized = true;
                             }
                             catch 
@@ -112,7 +113,7 @@ namespace Fanex.Security.SpamFilter.Factory
             {
                 try
                 {
-                    repository.Set(Dns.GetHostName(), false);
+                    repository.Set(Dns.GetHostName() + HostConnected, false);
                     repository.Dispose();
                 }
                 catch

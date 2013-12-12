@@ -176,7 +176,13 @@ namespace Fanex.Security.SpamFilter
                 // Create/get corresponding resolver
                 IResolver resolver = string.IsNullOrEmpty(rule.Resolver) ? DefaulResolver : ResolverFactory.Create(rule.Resolver);
 
-                task(rule, request, queue, resolver);
+                try
+                {
+                    task(rule, request, queue, resolver);
+                }
+                catch
+                { 
+                }
             }
         }
     }

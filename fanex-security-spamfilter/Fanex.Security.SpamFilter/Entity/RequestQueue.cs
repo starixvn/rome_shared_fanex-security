@@ -303,13 +303,6 @@ namespace Fanex.Security.SpamFilter.Entity
         {
             var now = DateTime.UtcNow;
 
-            // Avoid error when server flush
-            var remoteTotal = this.Repository.Get(this.Key, typeof(ulong));
-            this.RemoteTotal = remoteTotal == null ? 0 : (ulong)remoteTotal;
-
-            this.GetToken();
-            this.GetBlocker();
-
             ulong delta = 0;
             var item = this.Peek();
 
@@ -342,6 +335,13 @@ namespace Fanex.Security.SpamFilter.Entity
             {
                 this.RemoteTotal = this.Repository.Decrement(this.Key, delta);
             }
+
+            // Avoid error when server flush
+            var remoteTotal = this.Repository.Get(this.Key, typeof(ulong));
+            this.RemoteTotal = (remoteTotal == null) ? 0 : (ulong)remoteTotal;
+
+            this.GetToken();
+            this.GetBlocker();
         }
 
         public IEnumerator GetEnumerator()
@@ -376,6 +376,10 @@ namespace Fanex.Security.SpamFilter.Entity
                 if (blocker != null)
                 {
                     this.Blocker = (IRequestBlocker)blocker;
+                }
+                else
+                {
+                    this.SetBlocker();
                 }
             }
             catch
@@ -473,7 +477,7 @@ namespace Fanex.Security.SpamFilter.Entity
 
         private void SetBlocker()
         {
-            this.Repository.Set(this.BlockerKey, this.Blocker, this.Interval.Minutes + this.Blocker.Duration.Minutes);
+            this.Repository.Set(this.BlockerKey, this.Blocker);
         }
 
         /// <summary>

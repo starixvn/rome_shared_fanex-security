@@ -37,7 +37,7 @@ namespace Fanex.Security.SpamFilter.Factory
 
             if (string.IsNullOrEmpty(filterBy))
             {
-                return null;
+                throw new Exception(filter + " return empty identity value.");
             }
 
             var composite = new string[]

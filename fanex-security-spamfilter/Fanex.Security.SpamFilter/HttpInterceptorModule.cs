@@ -132,7 +132,7 @@ namespace Fanex.Security.SpamFilter
             {
                 try
                 {
-                    application.Context.Response.StatusDescription = string.Concat(queue.Count, ":", queue.RemoteTotal);
+                    application.Context.Response.StatusDescription += string.Concat(" >> ", queue.Count, ",", queue.RemoteTotal);
                 }
                 catch 
                 { 

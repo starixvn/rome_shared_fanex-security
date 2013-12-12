@@ -44,7 +44,7 @@ namespace Fanex.Security.SpamFilter.Factory
 
                     foreach (IRequestQueue<IRequest> item in cache.Values)
                     {
-                        if (DateTime.UtcNow.CompareTo(item.LastChecked.AddSeconds(10)) > 0)
+                        if (DateTime.UtcNow.CompareTo(item.LastChecked.AddSeconds(7)) > 0)
                         {
                             try
                             {
@@ -55,7 +55,7 @@ namespace Fanex.Security.SpamFilter.Factory
                                         if (item != null && item.Count > 0)
                                         {
                                             // Try to refresh queue by checking its blocked status
-                                            if (item.Blocked)
+                                            if (item.Blocked || !item.Blocker.Blocked)
                                             {
                                                 // Try to synchronize again
                                                 item.Synchronize();
