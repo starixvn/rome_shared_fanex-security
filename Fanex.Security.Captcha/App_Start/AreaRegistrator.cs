@@ -66,7 +66,7 @@ namespace Fanex.Security.Captcha.App_Start
         /// </summary>
         /// <param name="urlHelper">The URL helper.</param>
         /// <param name="keyValuePair">The key value pair.</param>
-        /// <returns>System.String.</returns>
+        /// <returns>System String.</returns>
         private static string RefreshUrlFactory(UrlHelper urlHelper, KeyValuePair<string, ICaptchaValue> keyValuePair)
         {
             return urlHelper.Action("Refresh", "DefaultCaptcha", new { area = string.Empty });
