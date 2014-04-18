@@ -1,27 +1,61 @@
-﻿using System.Configuration;
+﻿// ***********************************************************************
+// Assembly         : Fanex.Security.Captcha
+// Author           : Steven.Nguyen
+// Created          : 04-18-2014
+//
+// Last Modified By : Steven.Nguyen
+// Last Modified On : 04-18-2014
+// ***********************************************************************
+// <copyright file="AppSettings.cs" company="Nexcel">
+//     Copyright (c) Nexcel. All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
 
 namespace Fanex.Security.Captcha.Configurations
 {
+    using System.Configuration;
+
+    /// <summary>
+    /// Class AppSettings.
+    /// </summary>
     public static class AppSettings
     {
-        private static string _recaptchaPrivateKey; 
-        private static string _recaptchaPublicKey;      
+        /// <summary>
+        /// The _recaptcha private key.
+        /// </summary>
+        private static string _recaptchaPrivateKey;
 
+        /// <summary>
+        /// The _recaptcha public key.
+        /// </summary>
+        private static string _recaptchaPublicKey;
 
+        /// <summary>
+        /// Initializes static members of the <see cref="AppSettings"/> class.
+        /// </summary>
         static AppSettings()
         {
             _recaptchaPrivateKey = ConfigurationManager.AppSettings["RecaptchaPrivateKey"];
             _recaptchaPublicKey = ConfigurationManager.AppSettings["RecaptchaPublicKey"];
         }
 
+        /// <summary>
+        /// Gets the recaptcha public key.
+        /// </summary>
+        /// <value>The recaptcha public key.</value>
         public static string RecaptchaPublicKey
         {
-            get {return _recaptchaPublicKey;}
+            get { return _recaptchaPublicKey; }
         }
 
+        /// <summary>
+        /// Gets the recaptcha private key.
+        /// </summary>
+        /// <value>The recaptcha private key.</value>
         public static string RecaptchaPrivateKey
         {
-            get {return _recaptchaPrivateKey;}
+            get { return _recaptchaPrivateKey; }
         }
     }
 }

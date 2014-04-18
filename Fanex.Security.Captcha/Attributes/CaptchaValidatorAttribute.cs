@@ -1,32 +1,46 @@
-﻿// -----------------------------------------------------------------------
+﻿// ***********************************************************************
+// Assembly         : Fanex.Security.Captcha
+// Author           : Steven.Nguyen
+// Created          : 04-18-2014
+//
+// Last Modified By : Steven.Nguyen
+// Last Modified On : 04-18-2014
+// ***********************************************************************
 // <copyright file="CaptchaValidatorAttribute.cs" company="Nexcel">
-// TODO: Update copyright text.
+//     Copyright (c) Nexcel. All rights reserved.
 // </copyright>
-// -----------------------------------------------------------------------
-
-using System.Web.Mvc;
-using Fanex.Security.Captcha.Configurations;
+// <summary></summary>
+// ***********************************************************************
 
 namespace Fanex.Security.Captcha.Attributes
 {
-    /// <summary>
-    /// TODO: Update summary.
-    /// </summary>
+    using System.Web.Mvc;
+    using Fanex.Security.Captcha.Configurations;
 
+    /// <summary>
+    /// Class CaptchaValidatorAttribute.
+    /// </summary>
     public class CaptchaValidatorAttribute : ActionFilterAttribute
     {
-        private const string CHALLENGE_FIELD_KEY = "recaptcha_challenge_field";
-        private const string RESPONSE_FIELD_KEY = "recaptcha_response_field";
+        /// <summary>
+        /// The challeng e_ fiel d_ key.
+        /// </summary>
+        private const string CHALLENGEFIELDKEY = "recaptcha_challenge_field";
 
-        
+        /// <summary>
+        /// The respons e_ fiel d_ key.
+        /// </summary>
+        private const string RESPONSEFIELDKEY = "recaptcha_response_field";
 
+        /// <summary>
+        /// Called by the ASP.NET MVC framework before the action method executes.
+        /// </summary>
+        /// <param name="filterContext">The filter context.</param>
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            var captchaChallengeValue = filterContext.HttpContext.Request.Form[CHALLENGE_FIELD_KEY];
-            var captchaResponseValue = filterContext.HttpContext.Request.Form[RESPONSE_FIELD_KEY];
+            var captchaChallengeValue = filterContext.HttpContext.Request.Form[CHALLENGEFIELDKEY];
+            var captchaResponseValue = filterContext.HttpContext.Request.Form[RESPONSEFIELDKEY];
 
-        
-       
             var captchaValidtor = new Recaptcha.RecaptchaValidator
                                       {
                                           PrivateKey = AppSettings.RecaptchaPrivateKey,

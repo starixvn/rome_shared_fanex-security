@@ -1,35 +1,51 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
-using System.Web;
-using System.Web.Mvc;
-using CaptchaMvc.HtmlHelpers;
-using System.Web.Routing;
-using CaptchaMvc.Infrastructure;
-using CaptchaMvc.Interface;
-using Fanex.Security.Captcha.ViewModels;
-using Fanex.Security.SpamFilter;
-using System;
-
+﻿// ***********************************************************************
+// Assembly         : Fanex.Security.Captcha
+// Author           : Steven.Nguyen
+// Created          : 04-18-2014
+//
+// Last Modified By : Steven.Nguyen
+// Last Modified On : 04-18-2014
+// ***********************************************************************
+// <copyright file="SylouCaptchaController.cs" company="Nexcel">
+//     Copyright (c) Nexcel. All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
 
 namespace Fanex.Security.Captcha.Controllers
 {
+    using System;
+    using System.Web;
+    using System.Web.Mvc;
+    using System.Web.Routing;
+    using CaptchaMvc.HtmlHelpers;
+    using Fanex.Security.SpamFilter;
+
+    /// <summary>
+    /// Class Sylou Captcha Controller.
+    /// </summary>
     public class SylouCaptchaController : BaseCaptchaController
     {
-
+        /// <summary>
+        /// Generates the captcha.
+        /// </summary>
+        /// <param name="rule">The customer rule.</param>
+        /// <returns>Action Result.</returns>
         public override ActionResult GenerateCaptcha(string rule)
         {
             ViewBag.Success = false;
-
             ViewBag.Rule = rule;
-
-          
-
             return View("~/Areas/SpamFilter/Views/Captcha/PageAccess/SylouCaptcha.cshtml");
         }
 
-        //
-        // GET: /CaptchaMVC/
-        //[CaptchaVerify("Captcha is not valid.")]
+        /// <summary>
+        /// Checks the captcha.
+        /// </summary>
+        /// <param name="rule">The customer rule.</param>
+        /// <param name="context">The context.</param>
+        /// <param name="routeData">The route data.</param>
+        /// <param name="userName">Name of the user.</param>
+        /// <returns>Action Result.</returns>
         public override ActionResult CheckCaptcha(string rule, HttpContextBase context, RouteData routeData, string userName)
         {
             try
@@ -41,7 +57,6 @@ namespace Fanex.Security.Captcha.Controllers
                 {
                     ViewBag.Error = "Not valid";
                     ViewBag.Success = false;
-                    
                 }
                 else
                 {
@@ -58,8 +73,5 @@ namespace Fanex.Security.Captcha.Controllers
 
             return View("~/Areas/SpamFilter/Views/Captcha/PageAccess/SylouCaptcha.cshtml");
         }
-
-        
-
     }
 }
