@@ -53,6 +53,7 @@ namespace Fanex.Security.Captcha.Controllers
             }
             catch (Exception ex)
             {
+                var message = ex.Message;
                 return false;
             }
 
@@ -91,6 +92,7 @@ namespace Fanex.Security.Captcha.Controllers
             }
             catch (Exception ex)
             {
+                var message = ex.Message;
                 validCaptcha = false;
             }
 

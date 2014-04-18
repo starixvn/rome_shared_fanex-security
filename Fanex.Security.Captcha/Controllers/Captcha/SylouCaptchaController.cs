@@ -67,7 +67,7 @@ namespace Fanex.Security.Captcha.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Error = "Not valid";
+                ViewBag.Error = ex.Message;
                 ViewBag.Success = false;
             }
 
