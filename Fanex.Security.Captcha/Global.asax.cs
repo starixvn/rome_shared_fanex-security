@@ -19,7 +19,7 @@ namespace Fanex.Security.Captcha
     using Fanex.Security.Captcha.App_Start;
 
     /// <summary>
-    /// Class MvcApplication.
+    /// Class MVC Application.
     /// </summary>
     public class MvcApplication : System.Web.HttpApplication
     {

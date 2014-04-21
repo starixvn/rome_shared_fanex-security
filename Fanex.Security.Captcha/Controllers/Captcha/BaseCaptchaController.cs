@@ -27,14 +27,19 @@ namespace Fanex.Security.Captcha.Controllers
     public class BaseCaptchaController : BaseController
     {
         /// <summary>
-        /// Enum CaptchaMode.
+        /// Enumerate captcha mode.
         /// </summary>
         public enum CaptchaMode
         {
             /// <summary>
             /// The block.
             /// </summary>
-            Block = 1, Captcha = 2
+            Block = 1,
+
+            /// <summary>
+            /// The captcha.
+            /// </summary>
+            Captcha = 2
         }
         
         /// <summary>
@@ -43,7 +48,7 @@ namespace Fanex.Security.Captcha.Controllers
         /// <param name="controller">The controller.</param>
         /// <param name="rule">The customer rule.</param>
         /// <param name="mode">The captcha mode.</param>
-        /// <returns>JavaScriptResult.</returns>
+        /// <returns>Java Script Result.</returns>
         public JavaScriptResult RenderCaptchaScript(Controller controller, string rule, CaptchaMode mode)
         {
             rule = rule ?? string.Empty;
@@ -60,8 +65,8 @@ namespace Fanex.Security.Captcha.Controllers
         /// <param name="context">The context.</param>
         /// <param name="routeData">The route data.</param>
         /// <param name="userName">Name of the user.</param>
-        /// <returns>ActionResult.</returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+        /// <returns>Action Result.</returns>
+        /// <exception cref="System.NotImplementedException">Not Implemented Exception.</exception>
         [HttpPost]
         [AllowAnonymous]
         public virtual ActionResult CheckCaptcha(string pageName, HttpContextBase context, RouteData routeData, string userName)
@@ -74,14 +79,14 @@ namespace Fanex.Security.Captcha.Controllers
         /// </summary>
         /// <param name="rule">The customer rule.</param>
         /// <returns>Action Result.</returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+        /// <exception cref="System.NotImplementedException">Not Implemented Exception.</exception>
         public virtual ActionResult GenerateCaptcha(string rule)
         {
             throw new NotImplementedException();
         }
         
         /// <summary>
-        /// Availables this instance.
+        /// Available this instance.
         /// </summary>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         public virtual bool Available()
@@ -95,7 +100,7 @@ namespace Fanex.Security.Captcha.Controllers
         /// <param name="controller">The controller.</param>
         /// <param name="viewName">Name of the view.</param>
         /// <param name="model">The model.</param>
-        /// <returns>System.String.</returns>
+        /// <returns>System String.</returns>
         private string Render(Controller controller, string viewName, object model)
         {
             controller.ViewData.Model = model;

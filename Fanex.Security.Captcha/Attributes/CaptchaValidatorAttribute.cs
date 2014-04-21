@@ -23,12 +23,12 @@ namespace Fanex.Security.Captcha.Attributes
     public class CaptchaValidatorAttribute : ActionFilterAttribute
     {
         /// <summary>
-        /// The challeng e_ fiel d_ key.
+        /// The challenge key.
         /// </summary>
         private const string CHALLENGEFIELDKEY = "recaptcha_challenge_field";
 
         /// <summary>
-        /// The respons e_ fiel d_ key.
+        /// The responds key.
         /// </summary>
         private const string RESPONSEFIELDKEY = "recaptcha_response_field";
 

@@ -59,7 +59,7 @@ namespace Fanex.Security.Captcha.Controllers
         /// Checks the captcha.
         /// </summary>
         /// <param name="pageName">Name of the page.</param>
-        /// <returns>ActionResult.</returns>
+        /// <returns>Action Result.</returns>
         [HttpPost]
         [AllowAnonymous]
         public ActionResult CheckCaptcha(string pageName)

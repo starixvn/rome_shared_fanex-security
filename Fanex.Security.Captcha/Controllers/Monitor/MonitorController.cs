@@ -32,7 +32,7 @@ namespace Fanex.Security.Captcha.Controllers
         private CouchbaseClientConfiguration _config = new CouchbaseClientConfiguration();
 
         /// <summary>
-        /// The json setting.
+        /// The JSON setting.
         /// </summary>
         private JsonSerializerSettings _jsonSetting = new JsonSerializerSettings();
         
@@ -44,7 +44,7 @@ namespace Fanex.Security.Captcha.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="MonitorController"/> class.
         /// </summary>
-        /// <exception cref="System.InvalidCastException">Invalid connnection string, the format should be.</exception>
+        /// <exception cref="System.InvalidCastException">Invalid connection string, the format should be.</exception>
         public MonitorController()
         {
             var connectionString = Fanex.Security.SpamFilter.Configuration.Current.ConnectionString;
@@ -76,7 +76,7 @@ namespace Fanex.Security.Captcha.Controllers
         /// </summary>
         /// <param name="startKey">The start key.</param>
         /// <param name="pageSize">Size of the page.</param>
-        /// <returns>ActionResult.</returns>
+        /// <returns>Action Result.</returns>
         public ActionResult Index(string startKey, int pageSize = 5)
         {
             var view = _client.GetView("spamfilter", "spamfilterbycustomer");

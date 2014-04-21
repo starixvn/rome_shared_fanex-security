@@ -22,7 +22,7 @@ namespace Fanex.Security.Captcha.App_Start
     using CaptchaMvc.Interface;
 
     /// <summary>
-    /// Class AreaRegistrator.
+    /// Class Area Register.
     /// </summary>
     public class AreaRegistrator : AreaRegistration
     {
@@ -52,7 +52,7 @@ namespace Fanex.Security.Captcha.App_Start
         }
         
         /// <summary>
-        /// Initializes the sylou captcha.
+        /// Initializes the SYLOU captcha.
         /// </summary>
         private static void InitSylouCaptcha()
         {
@@ -78,7 +78,7 @@ namespace Fanex.Security.Captcha.App_Start
         /// <param name="captchaManager">The captcha manager.</param>
         /// <param name="url">The URL helper.</param>
         /// <param name="keyValuePair">The key value pair.</param>
-        /// <returns>System.String.</returns>
+        /// <returns>System String.</returns>
         private static string ImageUrlFactory(DefaultCaptchaManager captchaManager, UrlHelper url, KeyValuePair<string, ICaptchaValue> keyValuePair)
         {
             var routeDictionary = new RouteValueDictionary

@@ -22,7 +22,7 @@ namespace Fanex.Security.Captcha.Controllers
     using Fanex.Security.SpamFilter;
 
     /// <summary>
-    /// Class Sylou Captcha Controller.
+    /// Class SYLOU captcha Controller.
     /// </summary>
     public class SylouCaptchaController : BaseCaptchaController
     {

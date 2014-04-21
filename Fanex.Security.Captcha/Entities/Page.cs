@@ -23,7 +23,7 @@ namespace Fanex.Security.Captcha.Entities
     public class Page
     {
         /// <summary>
-        /// Enum Status.
+        /// Enumerate Status.
         /// </summary>
         public enum Status
         {

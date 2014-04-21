@@ -33,7 +33,7 @@ namespace Fanex.Security.Captcha.Controllers
         /// Indexes the specified page name.
         /// </summary>
         /// <param name="pageName">Name of the page.</param>
-        /// <returns>ActionResult.</returns>
+        /// <returns>Action Result.</returns>
         public ActionResult Index(string pageName)
         {
             var blocker = (from blockerItem in System.Web.HttpContext.Current.GetSpamFilterBlockers() select blockerItem).FirstOrDefault();
@@ -48,7 +48,7 @@ namespace Fanex.Security.Captcha.Controllers
         /// <summary>
         /// Renders the script.
         /// </summary>
-        /// <returns>JavaScriptResult.</returns>
+        /// <returns>Java Script Result.</returns>
         public JavaScriptResult RenderScript()
         {
             var pageName = Request["rule"] ?? string.Empty;
@@ -64,7 +64,7 @@ namespace Fanex.Security.Captcha.Controllers
         /// <param name="controller">The controller.</param>
         /// <param name="viewName">Name of the view.</param>
         /// <param name="model">The model.</param>
-        /// <returns>System.String.</returns>
+        /// <returns>System String.</returns>
         public string Render(Controller controller, string viewName, object model)
         {
             controller.ViewData.Model = model;

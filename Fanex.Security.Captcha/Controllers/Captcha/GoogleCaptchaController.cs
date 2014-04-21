@@ -27,17 +27,17 @@ namespace Fanex.Security.Captcha.Controllers
     public class GoogleCaptchaController : BaseCaptchaController
     {
         /// <summary>
-        /// The challeng e_ fiel d_ key.
+        /// The challenge  key.
         /// </summary>
         private const string CHALLENGEFIELDKEY = "recaptcha_challenge_field";
 
         /// <summary>
-        /// The respons e_ fiel d_ key.
+        /// The responds key.
         /// </summary>
         private const string RESPONSEFIELDKEY = "recaptcha_response_field";
         
         /// <summary>
-        /// Availables this instance.
+        /// Available this instance.
         /// </summary>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         public override bool Available()
@@ -77,7 +77,7 @@ namespace Fanex.Security.Captcha.Controllers
         /// <param name="context">The context.</param>
         /// <param name="routeData">The route data.</param>
         /// <param name="userName">Name of the user.</param>
-        /// <returns>ActionResult.</returns>
+        /// <returns>Action Result.</returns>
         public override ActionResult CheckCaptcha(string pageName, HttpContextBase context, RouteData routeData, string userName)
         {
             bool validCaptcha = false;
@@ -100,7 +100,7 @@ namespace Fanex.Security.Captcha.Controllers
         }
        
         /// <summary>
-        /// Valids the captcha.
+        /// Valid the captcha.
         /// </summary>
         /// <param name="context">The context.</param>
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>

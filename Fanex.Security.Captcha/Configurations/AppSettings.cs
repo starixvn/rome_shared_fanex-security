@@ -22,12 +22,12 @@ namespace Fanex.Security.Captcha.Configurations
     public static class AppSettings
     {
         /// <summary>
-        /// The _recaptcha private key.
+        /// The captcha private key.
         /// </summary>
         private static string _recaptchaPrivateKey;
 
         /// <summary>
-        /// The _recaptcha public key.
+        /// The captcha public key.
         /// </summary>
         private static string _recaptchaPublicKey;
 
@@ -41,18 +41,18 @@ namespace Fanex.Security.Captcha.Configurations
         }
 
         /// <summary>
-        /// Gets the recaptcha public key.
+        /// Gets the captcha public key.
         /// </summary>
-        /// <value>The recaptcha public key.</value>
+        /// <value>The captcha public key.</value>
         public static string RecaptchaPublicKey
         {
             get { return _recaptchaPublicKey; }
         }
 
         /// <summary>
-        /// Gets the recaptcha private key.
+        /// Gets the captcha private key.
         /// </summary>
-        /// <value>The recaptcha private key.</value>
+        /// <value>The captcha private key.</value>
         public static string RecaptchaPrivateKey
         {
             get { return _recaptchaPrivateKey; }
