@@ -4,17 +4,14 @@
 // </copyright>
 // --------------------------------------------------------------------------
 // <history>
-//   
+//
 // </history>
 
 namespace Fanex.Security.SpamFilter.Entity
 {
     using System;
     using System.Collections;
-    using System.Collections.Generic;
-    using System.Threading;
-
-    using Fanex.Security.SpamFilter.Factory;
+    using Fanex.Logging;
     using Fanex.Security.SpamFilter.Repository;
 
     /// <summary>
@@ -382,8 +379,10 @@ namespace Fanex.Security.SpamFilter.Entity
                     this.SetBlocker();
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                LogService.Warn(ex.Message, ex);
+
                 // Blocker is wrong, try to reset it
                 this.SetBlocker();
             }

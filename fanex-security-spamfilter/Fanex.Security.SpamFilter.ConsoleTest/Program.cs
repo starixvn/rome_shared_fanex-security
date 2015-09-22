@@ -96,16 +96,18 @@ namespace Fanex.Security.SpamFilter.ConsoleTest
                 client.DownloadDataCompleted += new DownloadDataCompletedEventHandler(client_DownloadDataCompleted);
 
                 // Test web-farm (2 pool host 1 url)
-                var port = i % 2 == 0 ? 804 : 805;
+                //var port = i % 2 == 0 ? 804 : 805;
 
-                if (ran.Next(0, 10) % 2 == 0)
-                {
-                    client.DownloadDataAsync(new Uri("http://10.21.10.21:" + port + "/Home/Contact/?violated=true&i=" + i));
-                }
-                else
-                {
-                    client.DownloadDataAsync(new Uri("http://127.0.0.1:" + port + "/Home/Contact/?violated=true&i=" + i));
-                }
+                client.DownloadDataAsync(new Uri("http://localhost:51025/Home/Contact/?violated=true&i=" + i));
+
+                ////if (ran.Next(0, 10) % 2 == 0)
+                ////{
+                ////    
+                ////}
+                ////else
+                ////{
+                ////    client.DownloadDataAsync(new Uri("http://127.0.0.1:" + port + "/Home/Contact/?violated=true&i=" + i));
+                ////}
             }
         }
 
@@ -115,7 +117,7 @@ namespace Fanex.Security.SpamFilter.ConsoleTest
         {
             completedCount++;
 
-            int[] lr = GetHeaderValue(sender as WebClient);
+            //int[] lr = GetHeaderValue(sender as WebClient);
 
             int index = GetRequestIndex(sender as WebClient);
             if (index != -1)

@@ -4,7 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------
 // <history>
-//   
+//
 // </history>
 
 namespace Fanex.Security.SpamFilter
@@ -13,6 +13,7 @@ namespace Fanex.Security.SpamFilter
     using System.Collections.Generic;
     using System.Configuration;
     using System.Diagnostics.CodeAnalysis;
+    using Fanex.Logging;
 
     /// <summary>
     /// Handle configuration for spam filter module.
@@ -35,8 +36,10 @@ namespace Fanex.Security.SpamFilter
                     {
                         current = (Configuration)ConfigurationManager.GetSection("SpamFilterConfiguration");
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        LogService.Error(ex.Message, ex);
+
                         return null;
                     }
 

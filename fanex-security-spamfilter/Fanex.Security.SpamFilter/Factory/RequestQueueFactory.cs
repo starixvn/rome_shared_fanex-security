@@ -3,15 +3,14 @@
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------
-// <history>
-//   
-// </history>
 
 namespace Fanex.Security.SpamFilter.Factory
 {
     using System;
-    using System.Collections.Generic;
+    using System.Collections.Concurrent;
+    using System.Linq;
     using System.Threading.Tasks;
+    using Fanex.Logging;
     using Fanex.Security.SpamFilter.Entity;
     using Fanex.Security.SpamFilter.Repository;
 
@@ -23,9 +22,9 @@ namespace Fanex.Security.SpamFilter.Factory
         /// <summary>
         /// One billion.
         /// </summary>
-        private const int MaxItem = int.MaxValue / 2;
+        private const int MaxItem = 0; ////int.MaxValue / 2;
 
-        private static IDictionary<string, IRequestQueue<IRequest>> cache = new Dictionary<string, IRequestQueue<IRequest>>();
+        private static ConcurrentDictionary<string, IRequestQueue<IRequest>> cache = new ConcurrentDictionary<string, IRequestQueue<IRequest>>();
         private static object locker = new object();
         private static Task flusher = null;
 
@@ -37,42 +36,45 @@ namespace Fanex.Security.SpamFilter.Factory
             {
                 while (true)
                 {
-                    if (flusher == null)
+                    try
                     {
-                        continue;
-                    }
-
-                    foreach (IRequestQueue<IRequest> item in cache.Values)
-                    {
-                        if (DateTime.UtcNow.CompareTo(item.LastChecked.AddSeconds(7)) > 0)
+                        if (flusher == null)
                         {
-                            try
+                            continue;
+                        }
+
+                        for (int i = 0; i < cache.Keys.Count; i++)
+                        {
+                            IRequestQueue<IRequest> item = null;
+                            cache.TryGetValue(cache.Keys.ElementAt(i), out item);
+
+                            if (item != null
+                                && DateTime.UtcNow.CompareTo(item.LastChecked.AddSeconds(7)) > 0
+                                && item.Count > 0)
                             {
-                                if (item != null && item.Count > 0)
+                                lock (item)
                                 {
-                                    lock (item)
+                                    if (item != null && item.Count > 0)
                                     {
-                                        if (item != null && item.Count > 0)
+                                        // Try to refresh queue by checking its blocked status
+                                        if (item.Blocked || !item.Blocker.Blocked)
                                         {
-                                            // Try to refresh queue by checking its blocked status
-                                            if (item.Blocked || !item.Blocker.Blocked)
-                                            {
-                                                // Try to synchronize again
-                                                item.Synchronize();
-                                            }
+                                            // Try to synchronize again
+                                            item.Synchronize();
                                         }
                                     }
                                 }
                             }
-                            catch
-                            {
-                            }
+
+                            flusher.Wait(1);
                         }
 
-                        flusher.Wait(1);
+                        flusher.Wait(5000);
                     }
-
-                    flusher.Wait(5000);
+                    catch (Exception ex)
+                    {
+                        LogService.Warn(ex.Message, ex);
+                    }
                 }
             },
             TaskCreationOptions.LongRunning);
@@ -106,21 +108,27 @@ namespace Fanex.Security.SpamFilter.Factory
                         // Remote repository will be expired after timespan time, so no need to update repository after removal
                         if (cache.Count > MaxItem)
                         {
-                            foreach (IRequestQueue<IRequest> item in cache.Values)
+                            var requestQueues = cache.Values.ToList();
+                            foreach (IRequestQueue<IRequest> item in requestQueues)
                             {
                                 if (DateTime.UtcNow.CompareTo(item.LastChecked.AddDays(2)) > 0)
                                 {
-                                    cache.Remove(queue.Key);
+                                    IRequestQueue<IRequest> removingItem = null;
+                                    cache.TryRemove(item.Key, out removingItem);
                                 }
                             }
                         }
 
-                        cache.Add(queue.Key, queue);
+                        cache.TryAdd(queue.Key, queue);
                     }
                 }
             }
 
-            return cache[sample.Key];
+            IRequestQueue<IRequest> requestQueue = null;
+
+            cache.TryGetValue(sample.Key, out requestQueue);
+
+            return requestQueue;
         }
     }
 }

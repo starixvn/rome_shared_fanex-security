@@ -4,7 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------
 // <history>
-//   
+//
 // </history>
 
 namespace Fanex.Security.SpamFilter.Factory
@@ -13,7 +13,7 @@ namespace Fanex.Security.SpamFilter.Factory
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Net;
-
+    using Fanex.Logging;
     using Fanex.Security.SpamFilter.Repository;
 
     /// <summary>
@@ -73,8 +73,9 @@ namespace Fanex.Security.SpamFilter.Factory
                                 couchbase.Set(Dns.GetHostName() + HostConnected, true);
                                 couchbase.Initialized = true;
                             }
-                            catch 
+                            catch (Exception ex)
                             {
+                                LogService.Warn(ex.Message, ex);
                             }
 
                             item = couchbase;
@@ -116,8 +117,9 @@ namespace Fanex.Security.SpamFilter.Factory
                     repository.Set(Dns.GetHostName() + HostConnected, false);
                     repository.Dispose();
                 }
-                catch
+                catch (Exception ex)
                 {
+                    LogService.Warn(ex.Message, ex);
                 }
             }
         }

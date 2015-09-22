@@ -4,7 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------
 // <history>
-//   
+//
 // </history>
 
 namespace Fanex.Security.SpamFilter.Repository
@@ -16,6 +16,7 @@ namespace Fanex.Security.SpamFilter.Repository
     using Couchbase;
     using Couchbase.Configuration;
     using Enyim.Caching.Memcached;
+    using Fanex.Logging;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
     using Newtonsoft.Json.Serialization;
@@ -91,8 +92,9 @@ namespace Fanex.Security.SpamFilter.Repository
                     this.OnPreDispose(this, EventArgs.Empty);
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                LogService.Warn(ex.Message, ex);
             }
             finally
             {
@@ -143,21 +145,21 @@ namespace Fanex.Security.SpamFilter.Repository
                 Task.WaitAll(
                     Task.Factory.StartNew(
                         () =>
-                {
-                    cr = _client.GetWithCas<string>(lockString);
-                    string guid = cr.Result;
+                        {
+                            cr = _client.GetWithCas<string>(lockString);
+                            string guid = cr.Result;
 
-                    if (string.IsNullOrEmpty(guid))
-                    {
-                        casResult = _client.Cas(StoreMode.Set, lockString, owner, TimeSpan.FromSeconds(20), cr.Cas);
-                        done = casResult.Result;
-                    }
+                            if (string.IsNullOrEmpty(guid))
+                            {
+                                casResult = _client.Cas(StoreMode.Set, lockString, owner, TimeSpan.FromSeconds(20), cr.Cas);
+                                done = casResult.Result;
+                            }
 
-                    if (done == false)
-                    {
-                        Thread.CurrentThread.Join(5);
-                    }
-                },
+                            if (done == false)
+                            {
+                                Thread.CurrentThread.Join(5);
+                            }
+                        },
                 TaskCreationOptions.PreferFairness));
 
                 if (done == false)
@@ -205,27 +207,27 @@ namespace Fanex.Security.SpamFilter.Repository
                 Task.WaitAll(
                     Task.Factory.StartNew(
                         () =>
-                {
-                    CasResult<string> cr = _client.GetWithCas<string>(lockString);
+                        {
+                            CasResult<string> cr = _client.GetWithCas<string>(lockString);
 
-                    string guid = cr.Result;
-                    done = string.IsNullOrEmpty(guid);
+                            string guid = cr.Result;
+                            done = string.IsNullOrEmpty(guid);
 
-                    if (guid == owner)
-                    {
-                        casResult = _client.Cas(StoreMode.Set, lockString, string.Empty, cr.Cas);
-                        done = casResult.Result;
-                    }
-                    else
-                    {
-                        done = true;
-                    }
+                            if (guid == owner)
+                            {
+                                casResult = _client.Cas(StoreMode.Set, lockString, string.Empty, cr.Cas);
+                                done = casResult.Result;
+                            }
+                            else
+                            {
+                                done = true;
+                            }
 
-                    if (done == false)
-                    {
-                        Thread.CurrentThread.Join(5);
-                    }
-                },
+                            if (done == false)
+                            {
+                                Thread.CurrentThread.Join(5);
+                            }
+                        },
                 TaskCreationOptions.PreferFairness));
 
                 if (done == false)

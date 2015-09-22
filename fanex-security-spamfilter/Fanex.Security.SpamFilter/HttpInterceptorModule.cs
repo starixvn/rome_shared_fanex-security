@@ -4,7 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------
 // <history>
-//   
+//
 // </history>
 
 [assembly: System.Web.PreApplicationStartMethod(typeof(Fanex.Security.SpamFilter.HttpInterceptorModule), "Start")]
@@ -14,14 +14,12 @@ namespace Fanex.Security.SpamFilter
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading;
     using System.Web;
-
+    using Fanex.Logging;
     using Fanex.Security.SpamFilter.Entity;
     using Fanex.Security.SpamFilter.Factory;
     using Fanex.Security.SpamFilter.Repository;
     using Fanex.Security.SpamFilter.Resolver;
-
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 
     /// <summary>
@@ -129,15 +127,16 @@ namespace Fanex.Security.SpamFilter
                 application.Context,
                 rules,
                 (RuleElement rule, IRequest request, IRequestQueue<IRequest> queue, IResolver resolver) =>
-            {
-                try
                 {
-                    application.Context.Response.StatusDescription += string.Concat(" >> ", queue.Count, ",", queue.RemoteTotal);
-                }
-                catch 
-                { 
-                }
-            });
+                    try
+                    {
+                        application.Context.Response.StatusDescription += string.Concat(" >> ", queue.Count, ",", queue.RemoteTotal);
+                    }
+                    catch (Exception ex)
+                    {
+                        LogService.Warn(ex.Message, ex);
+                    }
+                });
         }
 
         /// <summary>
@@ -179,17 +178,17 @@ namespace Fanex.Security.SpamFilter
                 application.Context,
                 rules,
                 (RuleElement rule, IRequest request, IRequestQueue<IRequest> queue, IResolver resolver) =>
-            {
-                if (!rule.AutoIncrement)
                 {
-                    return;
-                }
+                    if (!rule.AutoIncrement)
+                    {
+                        return;
+                    }
 
-                lock (queue)
-                {
-                    RuleProcessor.ProcessRule(application.Context, rule, request, queue, resolver, 1);
-                }
-            });
+                    lock (queue)
+                    {
+                        RuleProcessor.ProcessRule(application.Context, rule, request, queue, resolver, 1);
+                    }
+                });
         }
 
         private string GetLockKey(string key)
