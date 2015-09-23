@@ -19,6 +19,7 @@ namespace Fanex.Security.SpamFilter
     using Fanex.Security.SpamFilter.Filter;
     using Fanex.Security.SpamFilter.Repository;
     using Fanex.Security.SpamFilter.Resolver;
+using Fanex.Logging;
 
     /// <summary>
     /// Extend http context.
@@ -35,17 +36,25 @@ namespace Fanex.Security.SpamFilter
         /// <returns>Return a collection.</returns>
         public static ICollection<IRequestBlocker> GetSpamFilterBlockers(this HttpContext context, bool blocked = true)
         {
-            ICollection<IRequestQueue<IRequest>> collection = context.GetQueues();
-            List<IRequestBlocker> lockers = new List<IRequestBlocker>();
-            foreach (IRequestQueue<IRequest> queue in collection)
+            try
             {
-                if (blocked == queue.Blocked)
+                ICollection<IRequestQueue<IRequest>> collection = context.GetQueues();
+                List<IRequestBlocker> lockers = new List<IRequestBlocker>();
+                foreach (IRequestQueue<IRequest> queue in collection)
                 {
-                    lockers.Add(queue.Blocker);
+                    if (blocked == queue.Blocked)
+                    {
+                        lockers.Add(queue.Blocker);
+                    }
                 }
-            }
 
-            return lockers;
+                return lockers;
+            }
+            catch (Exception ex)
+            {
+                LogService.Error(LogExtension.ExceptionToString(ex, context), ex);
+                return null;
+            }
         }
 
         /// <summary>
@@ -55,29 +64,36 @@ namespace Fanex.Security.SpamFilter
         /// <param name="delta">Delta need to increase.</param>
         public static void SpamFilterIncrement(this HttpContext context, ulong delta = 1)
         {
-            if (delta == 0)
+            try
             {
-                return;
-            }
-
-            ICollection<RuleElement> rules = RuleProcessor.MatchRules(context.Request);
-
-            // Processing rules with auto increment = false
-            RuleProcessor.ProcessTask(
-                context,
-                rules,
-                (RuleElement rule, IRequest request, IRequestQueue<IRequest> queue, IResolver resolver) =>
-            {
-                if (rule.AutoIncrement)
+                if (delta == 0)
                 {
                     return;
                 }
 
-                lock (queue)
-                {
-                    RuleProcessor.ProcessRule(context, rule, request, queue, resolver, delta);
-                }
-            });
+                ICollection<RuleElement> rules = RuleProcessor.MatchRules(context.Request);
+
+                // Processing rules with auto increment = false
+                RuleProcessor.ProcessTask(
+                    context,
+                    rules,
+                    (RuleElement rule, IRequest request, IRequestQueue<IRequest> queue, IResolver resolver) =>
+                    {
+                        if (rule.AutoIncrement)
+                        {
+                            return;
+                        }
+
+                        lock (queue)
+                        {
+                            RuleProcessor.ProcessRule(context, rule, request, queue, resolver, delta);
+                        }
+                    });
+            }
+            catch (Exception ex)
+            {
+                LogService.Error(LogExtension.ExceptionToString(ex, context), ex);
+            }
         }
 
         /// <summary>

@@ -99,6 +99,7 @@
     <Compile Include="HttpContextExtension.cs" />
     <Compile Include="HttpInterceptorModule.cs" />
     <Compile Include="Filter\IFilter.cs" />
+    <Compile Include="LogExtension.cs" />
     <Compile Include="Resolver\EmptyResolver.cs" />
     <Compile Include="Resolver\IResolver.cs" />
     <Compile Include="Resolver\PlainTextResolver.cs" />

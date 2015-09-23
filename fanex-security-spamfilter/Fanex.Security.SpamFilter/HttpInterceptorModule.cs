@@ -134,7 +134,7 @@ namespace Fanex.Security.SpamFilter
                     }
                     catch (Exception ex)
                     {
-                        LogService.Warn(ex.Message, ex);
+                        LogService.Error(ex.Message, ex);
                     }
                 });
         }

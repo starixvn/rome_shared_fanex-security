@@ -66,7 +66,10 @@ namespace Fanex.Security.SpamFilter
 
                         // Match current execution file path
                         // "~/path/" match "/path/"
-                        if (request.AppRelativeCurrentExecutionFilePath.ToLower().IndexOf(path.ToLower()) == 1)
+                        if (request != null
+                            && request.AppRelativeCurrentExecutionFilePath != null
+                            && request.AppRelativeCurrentExecutionFilePath.ToLower().IndexOf(path.ToLower()) == 1
+                            && request.HttpMethod != null)
                         {
                             // Match http method
                             if (rule.MethodCollection.Contains("*") || rule.MethodCollection.Contains(request.HttpMethod.ToUpper()))
@@ -80,7 +83,7 @@ namespace Fanex.Security.SpamFilter
             }
             catch (Exception ex)
             {
-                LogService.Warn(ex.Message, ex);
+                LogService.Error(LogExtension.ExceptionToString(ex, request), ex);
             }
 
             return matchedRules;
@@ -184,57 +187,10 @@ namespace Fanex.Security.SpamFilter
             }
             catch (Exception ex)
             {
-                LogService.Warn(ExceptionToString(ex, context), ex);
+                LogService.Error(LogExtension.ExceptionToString(ex, context), ex);
             }
         }
 
-        public static string ExceptionToString(Exception ex, HttpContext context)
-        {
-            if (ex == null || context == null)
-            {
-                return string.Empty;
-            }
-
-            string message = string.Join("\r\n",
-            ex.Message,
-            "URL: " + context.Request.Url.OriginalString,
-            "REFERRER: " + context.Request.UrlReferrer,
-            "FORM: " + context.Request.Form.ToString(),
-            "SOURCE: " + ex.Source,
-            "TARGETSITE: " + ex.TargetSite,
-            "DETAIL: " + ex,
-            "STACKTRACE: " + ex.StackTrace,
-            "CULTURE: " + Thread.CurrentThread.CurrentUICulture,
-            "BROWSER CAPABILITIES:" + ClientInformation(context.Request));
-
-            return message;
-        }
-
-        private static string ClientInformation(HttpRequest request)
-        {
-            if (request.Browser == null)
-            {
-                return string.Empty;
-            }
-
-            var browser = request.Browser;
-            var browserInformation = string.Join("\r\n",
-                "Type: " + browser.Type,
-                "Name: " + browser.Browser,
-                "Version: " + browser.Version,
-                "Major Version: " + browser.MajorVersion,
-                "Minor Version: " + browser.MinorVersion,
-                "Platform: " + browser.Platform,
-                "Is Beta: " + browser.Beta,
-                "Is Crawler: " + browser.Crawler,
-                "Is AOL: " + browser.AOL,
-                "Is Win16: " + browser.Win16,
-                "Is Win32: " + browser.Win32,
-                "Supports Frames: " + browser.Frames,
-                "Supports Tables: " + browser.Tables,
-                "Supports Cookies: " + browser.Cookies);
-
-            return browserInformation;
-        }
+        
     }
 }

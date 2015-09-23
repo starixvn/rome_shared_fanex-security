@@ -381,7 +381,7 @@ namespace Fanex.Security.SpamFilter.Entity
             }
             catch (Exception ex)
             {
-                LogService.Warn(ex.Message, ex);
+                LogService.Error(ex.Message, ex);
 
                 // Blocker is wrong, try to reset it
                 this.SetBlocker();

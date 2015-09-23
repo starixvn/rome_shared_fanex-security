@@ -75,7 +75,7 @@ namespace Fanex.Security.SpamFilter.Factory
                             }
                             catch (Exception ex)
                             {
-                                LogService.Warn(ex.Message, ex);
+                                LogService.Error(ex.Message, ex);
                             }
 
                             item = couchbase;
@@ -119,7 +119,7 @@ namespace Fanex.Security.SpamFilter.Factory
                 }
                 catch (Exception ex)
                 {
-                    LogService.Warn(ex.Message, ex);
+                    LogService.Error(ex.Message, ex);
                 }
             }
         }

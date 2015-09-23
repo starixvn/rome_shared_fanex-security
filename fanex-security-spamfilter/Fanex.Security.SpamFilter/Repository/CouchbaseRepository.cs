@@ -94,7 +94,7 @@ namespace Fanex.Security.SpamFilter.Repository
             }
             catch (Exception ex)
             {
-                LogService.Warn(ex.Message, ex);
+                LogService.Error(ex.Message, ex);
             }
             finally
             {
