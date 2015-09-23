@@ -22,7 +22,7 @@ namespace Fanex.Security.SpamFilter.Factory
         /// <summary>
         /// One billion.
         /// </summary>
-        private const int MaxItem = 0; ////int.MaxValue / 2;
+        private const int MaxItem = int.MaxValue / 2;
 
         private static ConcurrentDictionary<string, IRequestQueue<IRequest>> cache = new ConcurrentDictionary<string, IRequestQueue<IRequest>>();
         private static object locker = new object();
