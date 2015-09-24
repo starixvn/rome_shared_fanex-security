@@ -7,7 +7,8 @@
 //
 // </history>
 
-[assembly: System.Web.PreApplicationStartMethod(typeof(Fanex.Security.SpamFilter.HttpInterceptorModule), "Start")]
+////[assembly: System.Web.PreApplicationStartMethod(typeof(Fanex.Security.SpamFilter.HttpInterceptorModule), "Start")] 
+//// => add above line to site which want to use autoIncrement when request hit 
 
 namespace Fanex.Security.SpamFilter
 {

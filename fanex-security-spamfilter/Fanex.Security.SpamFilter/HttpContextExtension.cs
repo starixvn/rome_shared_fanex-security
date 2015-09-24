@@ -4,7 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------
 // <history>
-//   
+//
 // </history>
 
 namespace Fanex.Security.SpamFilter
@@ -13,13 +13,9 @@ namespace Fanex.Security.SpamFilter
     using System.Collections.Generic;
     using System.Linq;
     using System.Web;
-
+    using Fanex.Logging;
     using Fanex.Security.SpamFilter.Entity;
-    using Fanex.Security.SpamFilter.Factory;
-    using Fanex.Security.SpamFilter.Filter;
-    using Fanex.Security.SpamFilter.Repository;
     using Fanex.Security.SpamFilter.Resolver;
-using Fanex.Logging;
 
     /// <summary>
     /// Extend http context.
@@ -140,12 +136,12 @@ using Fanex.Logging;
                 context,
                 rules,
                 (RuleElement rule, IRequest request, IRequestQueue<IRequest> queue, IResolver resolver) =>
-            {
-                if (rule.AutoIncrement == autoIncrement)
                 {
-                    collection.Add(queue);
-                }
-            });
+                    if (rule.AutoIncrement == autoIncrement)
+                    {
+                        collection.Add(queue);
+                    }
+                });
 
             return collection;
         }

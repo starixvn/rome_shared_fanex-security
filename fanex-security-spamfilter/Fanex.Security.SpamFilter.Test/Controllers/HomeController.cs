@@ -14,6 +14,7 @@ namespace Fanex.Security.SpamFilter.Test.Controllers
 {
     public class HomeController : Controller
     {
+        private static readonly object LockObject = new object();
         public ActionResult Index()
         {
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
@@ -28,7 +29,7 @@ namespace Fanex.Security.SpamFilter.Test.Controllers
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult TestFilter()
         {
             if (Request["reset"] == "true")
             {
@@ -36,20 +37,25 @@ namespace Fanex.Security.SpamFilter.Test.Controllers
                 System.Web.HttpContext.Current.SpamFilterResetRule("Home.Captcha");
             }
 
-            ICollection<IRequestBlocker> blockers = System.Web.HttpContext.Current.GetSpamFilterBlockers();
-
-            if (blockers.Count == 0)
+            lock (LockObject)
             {
-                if (Request["violated"] == "true")
-                {
-                    Thread.Sleep(500);
+                ICollection<IRequestBlocker> blockers = System.Web.HttpContext.Current.GetSpamFilterBlockers();
 
-                    // Oh, it violates our rule
+                if (blockers.Count == 0)
+                {
+                    // Increase violation number manual our rule
                     System.Web.HttpContext.Current.SpamFilterIncrement();
+
+                    ViewBag.Message = "Your are not blocked. ";
+                    Response.AddHeader("Blocked", "false");
+                }
+                else
+                {
+                    ViewBag.Message = string.Format("Your are blocked, on {0}, interval {1}", blockers.ElementAt(0).BlockedTime.ToLocalTime(), blockers.ElementAt(0).Interval);
+                    Response.AddHeader("Blocked", "true");
                 }
             }
-
-            ViewBag.Message = "Your quintessential contact page. ";
+            
             return View();
         }
     }

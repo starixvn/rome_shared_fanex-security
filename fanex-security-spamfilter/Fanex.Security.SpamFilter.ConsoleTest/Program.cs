@@ -31,8 +31,8 @@ namespace Fanex.Security.SpamFilter.ConsoleTest
 
         static void WebClientTest()
         {
-            while (true)
-            {
+            //while (true)
+            //{
                 Console.Clear();
 
                 Console.WriteLine("Start " + RequestPerSecond + " concurrent requests...");
@@ -75,10 +75,11 @@ namespace Fanex.Security.SpamFilter.ConsoleTest
                     }
                 }
 
-                Console.WriteLine("Auto restart after " + RequestPerSecond * 20 + " miliseconds.");
+                var restartTime = 65;
+                Console.WriteLine("Auto restart after {0} seconds.", restartTime);
 
-                Thread.Sleep(RequestPerSecond * 20);
-            }
+                Thread.Sleep(restartTime * 1000);
+            //}
         }
 
         static void ClientRequest() 
@@ -96,18 +97,15 @@ namespace Fanex.Security.SpamFilter.ConsoleTest
                 client.DownloadDataCompleted += new DownloadDataCompletedEventHandler(client_DownloadDataCompleted);
 
                 // Test web-farm (2 pool host 1 url)
-                //var port = i % 2 == 0 ? 804 : 805;
 
-                client.DownloadDataAsync(new Uri("http://localhost:51025/Home/Contact/?violated=true&i=" + i));
-
-                ////if (ran.Next(0, 10) % 2 == 0)
-                ////{
-                ////    
-                ////}
-                ////else
-                ////{
-                ////    client.DownloadDataAsync(new Uri("http://127.0.0.1:" + port + "/Home/Contact/?violated=true&i=" + i));
-                ////}
+                if (ran.Next(0, 10) % 2 == 0)
+                {
+                    client.DownloadDataAsync(new Uri("http://localhost:8869/Home/TestFilter?i=" + i));
+                }
+                else
+                {
+                    client.DownloadDataAsync(new Uri("http://localhost:51025/Home/TestFilter?i=" + i));
+                }
             }
         }
 
@@ -117,7 +115,7 @@ namespace Fanex.Security.SpamFilter.ConsoleTest
         {
             completedCount++;
 
-            //int[] lr = GetHeaderValue(sender as WebClient);
+            ShowBlockMessage(sender as WebClient);
 
             int index = GetRequestIndex(sender as WebClient);
             if (index != -1)
@@ -141,7 +139,7 @@ namespace Fanex.Security.SpamFilter.ConsoleTest
             }
         }
 
-        private static int[] GetHeaderValue(WebClient client)
+        private static void ShowBlockMessage(WebClient client)
         {
             FieldInfo responseField = client.GetType().GetField("m_WebResponse", BindingFlags.Instance | BindingFlags.NonPublic);
 
@@ -151,16 +149,11 @@ namespace Fanex.Security.SpamFilter.ConsoleTest
 
                 if (response != null)
                 {
-                    string[] values = response.Headers["Home.Threshold10"].Split(new char[] { ':', ';' }, StringSplitOptions.RemoveEmptyEntries);
-                    int l = int.Parse(values[1]);
-                    int r = int.Parse(values[3]);
+                    string blocked = response.Headers["Blocked"];
 
-                    if (r > 100) Console.WriteLine("FAILED");
-                    
+                    Console.WriteLine("Blocked: {0}", blocked);
                 }
             }
-
-            return new int[] { 0, 0 };
         }
 
         private static int GetRequestIndex(WebClient client)
@@ -170,7 +163,7 @@ namespace Fanex.Security.SpamFilter.ConsoleTest
             if (requestField != null)
             {
                 HttpWebRequest request = requestField.GetValue(client) as HttpWebRequest;
-                string i = request.RequestUri.AbsoluteUri.Split(new string[] { "&i=" }, StringSplitOptions.RemoveEmptyEntries)[1];
+                string i = request.RequestUri.AbsoluteUri.Split(new string[] { "?i=" }, StringSplitOptions.RemoveEmptyEntries)[1];
                 return int.Parse(i);
             }
 

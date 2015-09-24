@@ -11,7 +11,6 @@ namespace Fanex.Security.SpamFilter
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading;
     using System.Web;
     using Fanex.Logging;
     using Fanex.Security.SpamFilter.Entity;
@@ -190,7 +189,5 @@ namespace Fanex.Security.SpamFilter
                 LogService.Error(LogExtension.ExceptionToString(ex, context), ex);
             }
         }
-
-        
     }
 }

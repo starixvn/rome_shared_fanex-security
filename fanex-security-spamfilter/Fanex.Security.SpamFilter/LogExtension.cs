@@ -1,8 +1,8 @@
 ﻿namespace Fanex.Security.SpamFilter
 {
     using System;
-    using System.Web;
     using System.Threading;
+    using System.Web;
 
     public static class LogExtension
     {
@@ -23,17 +23,18 @@
                 return "Ex or Request Is Null";
             }
 
-            string message = string.Join("\r\n",
-            ex.Message,
-            "URL: " + request.Url.OriginalString,
-            "REFERRER: " + request.UrlReferrer,
-            "FORM: " + request.Form.ToString(),
-            "SOURCE: " + ex.Source,
-            "TARGETSITE: " + ex.TargetSite,
-            "DETAIL: " + ex,
-            "STACKTRACE: " + ex.StackTrace,
-            "CULTURE: " + Thread.CurrentThread.CurrentUICulture,
-            "BROWSER CAPABILITIES:" + ClientInformation(request));
+            string message = string.Join(
+                "\r\n",
+                ex.Message,
+                "URL: " + request.Url.OriginalString,
+                "REFERRER: " + request.UrlReferrer,
+                "FORM: " + request.Form.ToString(),
+                "SOURCE: " + ex.Source,
+                "TARGETSITE: " + ex.TargetSite,
+                "DETAIL: " + ex,
+                "STACKTRACE: " + ex.StackTrace,
+                "CULTURE: " + Thread.CurrentThread.CurrentUICulture,
+                "BROWSER CAPABILITIES:" + ClientInformation(request));
 
             return message;
         }
@@ -46,7 +47,8 @@
             }
 
             var browser = request.Browser;
-            var browserInformation = string.Join("\r\n",
+            var browserInformation = string.Join(
+                "\r\n",
                 "Type: " + browser.Type,
                 "Name: " + browser.Browser,
                 "Version: " + browser.Version,
