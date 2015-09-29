@@ -58,7 +58,6 @@ namespace Fanex.Security.SpamFilter
         public void Init(HttpApplication context)
         {
             this.UID = Guid.NewGuid().ToString();
-            RepositoryFactory.Initialize();
 
             /*
              *

@@ -35,7 +35,7 @@ namespace Fanex.Security.SpamFilter.Factory
     /// <summary>
     /// Implementation of IPersistentRepository factory.
     /// </summary>
-    internal static class RepositoryFactory
+    public static class RepositoryFactory
     {
         private const string HostConnected = " - connected";
         private static IDictionary<RepositoryType, IPersistentRepository> cache = new Dictionary<RepositoryType, IPersistentRepository>();
@@ -43,10 +43,18 @@ namespace Fanex.Security.SpamFilter.Factory
 
         static RepositoryFactory()
         {
-            AppDomain.CurrentDomain.DomainUnload += new EventHandler(Repository_Dispose);
-            Process current = Process.GetCurrentProcess();
-            current.EnableRaisingEvents = true;
-            current.Exited += new EventHandler(Repository_Dispose);
+            try
+            {
+                AppDomain.CurrentDomain.DomainUnload += new EventHandler(Repository_Dispose);
+                Process current = Process.GetCurrentProcess();
+                current.EnableRaisingEvents = true;
+                current.Exited += new EventHandler(Repository_Dispose);
+                Initialize();
+            }
+            catch (Exception ex)
+            {
+                LogService.Error(ex.Message, ex);
+            }
         }
 
         /// <summary>
@@ -97,9 +105,16 @@ namespace Fanex.Security.SpamFilter.Factory
             return cache[type];
         }
 
-        internal static void Initialize()
+        public static void Initialize()
         {
-            Create(RepositoryType.Couchbase);
+            try
+            {
+                Create(RepositoryType.Couchbase);
+            }
+            catch (Exception ex)
+            {
+                LogService.Error(ex.Message, ex);
+            }
         }
 
         /// <summary>
